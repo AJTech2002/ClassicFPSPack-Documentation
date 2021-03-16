@@ -11,7 +11,7 @@ The easiest way to begin using the FPS Controller is to navigate to __Assets/Pre
 
 To better understand what's going on, let's break the prefab into its individual GameObjects. After dragging in the prefab, look at the Hierarchy.
 
-![2021-03-17 01_13_54-Sliver - SampleScene - PC, Mac & Linux Standalone - Unity 2020.2.1f1 Personal_ _.png]({{site.baseurl}}/2021-03-17 01_13_54-Sliver - SampleScene - PC, Mac & Linux Standalone - Unity 2020.2.1f1 Personal_ _.png)
+![1.png]({{site.baseurl}}/1.png)
 
 Let's break this down:
 
@@ -29,14 +29,14 @@ Some core properties of the FPSController are that the __Layer__ of the Player a
 
 You can check it by looking in the top right corner in the Inspector window.
 
-![2021-03-17 01_23_33-Sliver - SampleScene - PC, Mac & Linux Standalone - Unity 2020.2.1f1 Personal_ _.png]({{site.baseurl}}/2021-03-17 01_23_33-Sliver - SampleScene - PC, Mac & Linux Standalone - Unity 2020.2.1f1 Personal_ _.png)
+![2.png]({{site.baseurl}}/2.png)
 
 
 ### Configuring the Base Controller
 
 Let's step one level down in the Hierarchy to the **Controller** GameObject. Focus your attention over to the Inspector window and notice all the different Components.
 
-![2021-03-17 01_26_59-Sliver - SampleScene - PC, Mac & Linux Standalone - Unity 2020.2.1f1 Personal_ _.png]({{site.baseurl}}/2021-03-17 01_26_59-Sliver - SampleScene - PC, Mac & Linux Standalone - Unity 2020.2.1f1 Personal_ _.png)
+![3.png]({{site.baseurl}}/3.png)
 
 So what does each one do?
 
