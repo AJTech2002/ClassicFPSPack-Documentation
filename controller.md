@@ -7,6 +7,8 @@ The FPS Controller consists of two main elements, the ****Camera Controller**** 
 ## FPS Controller Basics
 The easiest way to begin using the FPS Controller is to navigate to __Assets/Prefabs/Player__ and find ___FPSController.prefab___. Drag the prefab into the scene and it should be able to move, control the camera and interact with physics out of the box. 
 
+It's important that you remove the existing **Main Camera** from the Scene so that you don't have 2 Cameras running at the same time.
+
 ### FPS Controller Prefab Children
 
 To better understand what's going on, let's break the prefab into its individual GameObjects. After dragging in the prefab, look at the Hierarchy.
