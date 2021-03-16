@@ -32,7 +32,7 @@ You can check it by looking in the top right corner in the Inspector window.
 ![2.png]({{site.baseurl}}/2.png)
 
 
-### Configuring the Base Controller
+### Elements of the Base Controller
 
 Let's step one level down in the Hierarchy to the **Controller** GameObject. Focus your attention over to the Inspector window and notice all the different Components.
 
@@ -44,12 +44,24 @@ So what does each one do?
 
 2. **Capsule Collider** : This Collider is mainly responsible for pushing out the Player from any walls it gets stuck in, this is not the Collider in charge of general collisions. 
 
+[Learn more...](controller/capsule_collider.md)
+
 3. **Character Controller** : This Component is provided by default in Unity. It has some great features such as collision detection and preventing movement through objects without the need for a Rigidbody. This will work great when we need deterministic movement.
+
+Learn more...
 
 4. **Player Input Manager** : This Component utilises the new Unity Input System to recieve events when a certain key is pressed and triggers the respective events/data changes in the FPSController.
 
+
 5. **Player Input** : This Component is provided by default with the new Input System and it is in charge of determining which keys call which functions.
+
+Learn more...
 
 6. **Player Physics** : This Component has some helpful functions that can be used to determine physical properties/states of the Player such as if the Player is currently grounded.
 
+Learn more...
+
 7. **Player Controller** : The main driver of the Player, it holds all the logic for movement. It also has some properties that determine how the Player moves in different situations.
+
+Learn more...
+
