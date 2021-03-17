@@ -16,3 +16,8 @@ Place your attention on the Inspector window and find the **PlayerInput** Compon
 
 ![Screen Shot 2021-03-17 at 11.31.09 am.png]({{site.baseurl}}/Screen Shot 2021-03-17 at 11.31.09 am.png)
 
+This is where you will modify Input bindings. 
+
+Notice how I have expanded **Movement** then selected **Up** in the right most panel is where I can change the binding for the action and the **PlayerInputManager** will handle getting information from that new key/joystick/mouse source.
+
+
