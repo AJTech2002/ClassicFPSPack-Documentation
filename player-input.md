@@ -18,6 +18,5 @@ Place your attention on the Inspector window and find the **PlayerInput** Compon
 
 This is where you will modify Input bindings. 
 
-Notice how I have expanded **Movement** then selected **Up** in the right most panel is where I can change the binding for the action and the **PlayerInputManager** will handle getting information from that new key/joystick/mouse source.
-
+Notice how I have expanded **Movement** then selected **Up**. In the right most panel is where I can change the binding for the action, the **PlayerInputManager** will handle getting information from that new key/joystick/mouse source.
 
