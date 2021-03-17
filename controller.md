@@ -1,7 +1,7 @@
 ## FPS Controller
 The FPS Controller consists of two main elements, the ****Camera Controller**** and the **Player Controller**. 
 
-1. The **Camera Controller** allows for the Player to look around and have visibility of the world, it also orients the Player Controller in the correct direction so that inputs from the keyboard are always relative to Camera direction.
+1. The [**Camera Controller**](camera-controller.md) allows for the Player to look around and have visibility of the world, it also orients the Player Controller in the correct direction so that inputs from the keyboard are always relative to Camera direction.
 2. The **Player Controller** allows for the actual movement and interaction of the Player with the game world.
 
 ## FPS Controller Basics
@@ -38,7 +38,8 @@ You can check it by looking in the top right corner in the Inspector window.
 
 Let's step one level down in the Hierarchy to the **Controller** GameObject. Focus your attention over to the Inspector window and notice all the different Components.
 
-![3.png]({{site.baseurl}}/3.png)
+![REPLACE_INSPECTOR_PLAYER 20.png]({{site.baseurl}}/REPLACE_INSPECTOR_PLAYER 20.png)
+
 
 So what does each one do?
 
@@ -67,7 +68,8 @@ So what does each one do?
 
 [Learn more...](player-controller.md)
 
-### Configuring the Camera
+8. **Player Camera Controller** : This is the main driver of the Camera movement, rotation, smoothing and all its effects. It is highly configurable as it is utilising the Cinemachine system.
 
+[Learn more...](camera-controller.md)
 
 
