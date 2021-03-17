@@ -66,3 +66,6 @@ So what does each one do?
 7. **Player Controller** : The main driver of the Player, it holds all the logic for movement. It also has some properties that determine how the Player moves in different situations.
 
 [Learn more...](player-controller.md)
+
+### Configuring the Camera
+
