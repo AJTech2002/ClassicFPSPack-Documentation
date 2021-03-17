@@ -47,29 +47,27 @@ So what does each one do?
 
 2. **Capsule Collider** : This Collider is mainly responsible for pushing out the Player from any walls it gets stuck in, this is not the Collider in charge of general collisions. 
 
-[Learn more...](capsule-collider.md)
+**[Learn more...]**(capsule-collider.md)
 
 3. **Character Controller** : This Component is provided by default in Unity. It has some great features such as collision detection and preventing movement through objects without the need for a Rigidbody. This will work great when we need deterministic movement.
 
-[Learn more...](character-controller.md)
+**[Learn more...]**(character-controller.md)
 
 4. **Player Input Manager** : This Component utilises the new Unity Input System to recieve events when a certain key is pressed and triggers the respective events/data changes in the FPSController.
 
 
 5. **Player Input** : This Component is provided by default with the new Input System and it is in charge of determining which keys call which functions.
 
-[Learn more...](player-input.md)
+**[Learn more...]**(player-input.md)
 
 6. **Player Physics** : This Component has some helpful functions that can be used to determine physical properties/states of the Player such as if the Player is currently grounded.
 
-[Learn more...](player-physics.md)
+**[Learn more...]**(player-physics.md)
 
 7. **Player Controller** : The main driver of the Player, it holds all the logic for movement. It also has some properties that determine how the Player moves in different situations.
 
-[Learn more...](player-controller.md)
+**[Learn more...]**(player-controller.md)
 
 8. **Player Camera Controller** : This is the main driver of the Camera movement, rotation, smoothing and all its effects. It is highly configurable as it is utilising the Cinemachine system.
 
-[Learn more...](camera-controller.md)
-
-
+**[Learn more...]**(camera-controller.md)
