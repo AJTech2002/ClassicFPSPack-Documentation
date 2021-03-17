@@ -12,9 +12,7 @@ However, what if you need to support this Player on a different system?
 
 To solve this problem the Player utilises the new **Unity Input System**, you can learn in a lot more detail about it [here](https://www.raywenderlich.com/9671886-new-unity-input-system-getting-started).
 
-![9.png]({{site.baseurl}}/9.png)
-
-
 Place your attention on the Inspector window and find the **PlayerInput** Component, look at the **Actions** property. The asset found in that field determines what Inputs trigger what functions. You can find this asset in ***Assets/Prefabs/Input/Player Input***. You can double click on the asset to open up the Input System Editor. 
 
 ![Screen Shot 2021-03-17 at 11.31.09 am.png]({{site.baseurl}}/Screen Shot 2021-03-17 at 11.31.09 am.png)
+
