@@ -67,3 +67,5 @@ Let's run through the different properties:
 
 By increasing the FOV when sprinting it gives a feel of speed increasing by slightly increasing the amount that you can see in the corners. By tilting the Camera while moving horizontally it provides a natural feel to the Camera and a sense of motion.
 
+![fov_tilt_displace_2.gif]({{site.baseurl}}/fov_tilt_displace_2.gif)
+
