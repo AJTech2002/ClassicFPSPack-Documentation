@@ -69,4 +69,3 @@ By increasing the FOV when sprinting it gives a feel of speed increasing by slig
 
 ![fov_tilt_displace.gif]({{site.baseurl}}/fov_tilt_displace.gif)
 
-    
