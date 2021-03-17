@@ -11,7 +11,7 @@ It's important that you remove the existing **Main Camera** from the Scene so th
 
 ### FPS Controller Prefab Children
 
-To better understand what's going on, let's break the prefab into its individual GameObjects. After dragging in the prefab, look at the Hierarchy.
+To better understand what's going on, let's break the prefab into its individual GameObjects. After dragging in the prefab, look at the Hierarchy. 
 
 ![1.png]({{site.baseurl}}/1.png)
 
@@ -71,3 +71,5 @@ So what does each one do?
 8. **Player Camera Controller** : This is the main driver of the Camera movement, rotation, smoothing and all its effects. It is highly configurable as it is utilising the Cinemachine system.
 
 **[Learn more...]**(camera-controller.md)
+
+Once you are more familiar with the different Components you can start utilising them in your own modified controllers. The internal documentation of the code is heavy so all variables and concepts are explained.
