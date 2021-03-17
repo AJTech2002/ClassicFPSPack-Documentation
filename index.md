@@ -2,14 +2,14 @@
 
 This is where you will be able to navigate the different components of the Sliver Project and find out how the code works and how to make modifications.
 
-### Project Sub-Components
+## Project Sub-Components
 
 You'll be able to quickly find the core elements of the FPS Base Project here.
 
-- [FPS Controller](controller.md)
+- **[FPS Controller]**(controller.md)
 	- [Player Controller](player-controller.md)
     - [Capsule Collider](capsule-collider.md)
     - [Character Controller](character-controller.md)
     - [Player Input](player-input.md)
     - [Player Physics](player-physics.md)
-- [Player Camera Controller](camera-controller.md)
+- **[Player Camera Controller]**(camera-controller.md)
