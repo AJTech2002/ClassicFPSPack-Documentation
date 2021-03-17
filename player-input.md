@@ -12,6 +12,6 @@ However, what if you need to support this Player on a different system?
 
 To solve this problem the Player utilises the new **Unity Input System**, you can learn in a lot more detail about it [here](https://www.raywenderlich.com/9671886-new-unity-input-system-getting-started).
 
-Place your attention on the Inspector window and find the **PlayerInput** Component.
+Place your attention on the Inspector window and find the **PlayerInput** Component
 
-![]({{site.baseurl}}//9.png)
+
