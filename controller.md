@@ -18,7 +18,7 @@ To better understand what's going on, let's break the prefab into its individual
 Let's break this down:
 
 - **Controller**
-	- Pivot : An Empty GameObject that is rotated by the __RotateWithMouse__ script, it determines the direction of the Camera.
+	- Pivot : An Empty GameObject that is rotated by the __PlayerController__ script, it determines the direction of the Camera (this will be explained more below).
     - ForwardsDirection : An Empty GameObject that stores the forward rotation of the Player.
 - **CM VCam1** : This is a __CinemachineVirtualCamera__, this allows you to add complex behaviour to the Camera with simple properties. For example, things such as Damping, Camera Offset etc. can all be modified simply in this Component. This will be covered more extensively soon.
 - **Camera** : This Camera is controlled directly by the **CM VCam1**
@@ -68,4 +68,6 @@ So what does each one do?
 [Learn more...](player-controller.md)
 
 ### Configuring the Camera
+
+
 
