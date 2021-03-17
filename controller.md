@@ -72,4 +72,4 @@ So what does each one do?
 
 [**Learn more...**](camera-controller.md)
 
-Once you are more familiar with the different Components you can start utilising them in your own modified controllers. The internal documentation of the code is heavy,so all variables and concepts are explained.
+Once you are more familiar with the different Components you can start utilising them in your own modified controllers.
