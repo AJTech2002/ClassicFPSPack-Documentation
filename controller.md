@@ -2,7 +2,7 @@
 The FPS Controller consists of two main elements, the **Camera Controller** and the **Player Controller**. 
 
 1. The [**Camera Controller**](camera-controller.md) allows for the Player to look around and have visibility of the world, it also orients the Player Controller in the correct direction so that inputs from the keyboard are always relative to Camera direction.
-2. The **Player Controller** allows for the actual movement and interaction of the Player with the game world.
+2. The [**Player Controller**]((player-controller.md) allows for the actual movement and interaction of the Player with the game world. The **Player Controller** functions through the use of multiple other Components.
 
 ## FPS Controller Basics
 The easiest way to begin using the FPS Controller is to navigate to __Assets/Prefabs/Player__ and find ___FPSController.prefab___. Drag the prefab into the scene and it should be able to move, control the camera and interact with physics out of the box. 
