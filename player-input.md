@@ -14,4 +14,4 @@ To solve this problem the Player utilises the new **Unity Input System**, you ca
 
 Place your attention on the Inspector window and find the **PlayerInput** Component.
 
-
+![]({{site.baseurl}}//9.png)
