@@ -1,4 +1,4 @@
-## Pushable Objects
+## Pushable Objects (IN PROGRESS)
 
 By default Players cannot move Rigidbodies, this is because the Player object does not have a Rigidbody itself as the character is completely controlled without Unity's Physics.
 
@@ -40,5 +40,6 @@ The GameObject would behave something like this:
 
 
 Notice how the Rigidbody is sliding at the start, if you want to remove that then increase the ***Drag*** of the Rigidbody and you will get behaviour more like this:
+
 
 
