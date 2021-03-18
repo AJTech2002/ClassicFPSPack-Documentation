@@ -86,7 +86,7 @@ Now I have modified the Cube to contain the following properties:
 
 ![INDIVIDUALAXIS.png]({{site.baseurl}}/INDIVIDUALAXIS.png)
 
-Note that even **5** on the **X** and **Y** Axis is sufficient to prevent the slipping.
+Note that even a small Drag of **5** on the **X** and **Z** Axis is sufficient to prevent the slipping.
 
 ## Premade Prefabs
 
@@ -101,4 +101,3 @@ You can look in ***Assets/Prefabs/Pushable Prefabs*** to find these prefabs.
 ## Optimisations
 
 The **Pushable Object** script is heavily optimised, it does __not__ have an ``Update()`` function, it only runs when the Player is pushing the object, so a scene can contain many Pushable objects.
-
