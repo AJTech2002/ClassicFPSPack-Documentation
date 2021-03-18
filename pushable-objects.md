@@ -11,53 +11,94 @@ Once the Collision detection has been found we do the following checks:
 
 If these conditions are met then we push the collided Rigidbody in the movement direction of the Player.
 
-Now take a look at the **Player Physics** Component.
+Now take a look at the **Player Physics** Component on the Player, this also affects how Pushable objects are affected.
 
 ![Replaced Force.png]({{site.baseurl}}/Replaced Force.png)
 
 There are a few things that contribute to how much the Pushable objects are affected by a collision:
 
 1. The **Push Power** variable, this determines how much force to apply to the Object that you are pushing up against. This can determine how quickly the Object reaches the **Pushable Object Velocity Max**.
+
 2. The **Pushable Object Velocity Max**, this determines the max velocity that the Player can impart on another Object. If this is not limited then the Player can add infinite force to an Object.
-2. The current speed of the Player, the full **Push Power** will be used when the Player is sprinting.
-3. The mass of the Rigidbody that the Player is trying to push
-4. The drag of the Rigidbody that the Player is trying to push
+
+3. The **Speed** of the Player
+
+4. The properties of the **Rigidbody** attached to the Pushable object
+
+  - The Mass of the Rigidbody that the Player is trying to push
+  - The Angular Drag of the Rigidbody that the Player is trying to push
+  - The Drag of the Rigidbody that the Player is trying to push
 
 ## Creating a Pushable Object
 
-![22.png]({{site.baseurl}}/22.png)
+![23_Final_Inspector_Iteration.png]({{site.baseurl}}/23_Final_Inspector_Iteration.png)
 
 For example, you want a simple cube that you can push on the ground. Simply create a **Cube** GameObject, then follow these steps:
 
 1. Assign the **PushableObject** Component to the object
+
+	- You can modify the ***Velocity Drag*** to individually affect the different axis' Drag __after__ the Player loses contact with the object (can prevent sliding effect).
+    
+    	- Set to 0 on an axis if you don't want any Drag on that axis, after the Player loses contact, it will rely entirely upon **Rigidbody Drag**.
+        
+        - Set to 100 on an axis if you want the Object to stop instantly after the Player loses contact.
+        
+        - Set to intermediate values if you need Drag to affect the different axis without bringing the Object to stop immediately.
+        
+        - The values should never exceed 100 or go below 0
+        
 2. Ensure there is a Collider on the object
+
+	- A **primitive** Collider is recommended here (Cube, Sphere, Capsule) as the forces can behave unrealistically on more complex geometry. 
+    
 3. Ensure there is a Rigidbody on the object
+
 	- If you want the Cube to just move along the surface of the ground then you can ***Freeze Rotation*** on the ***X*** and ***Z*** axis. 
+    
+    - If you don't want the Cube to rotate too much then you can bump up the ***Angular Drag***.
     
 The GameObject would behave something like this:
 
 ![pushable_drag.gif]({{site.baseurl}}/pushable_drag.gif)
 
-Notice how the Rigidbody is sliding at the start, if you want to remove that then increase the ***Velocity Drag*** on the **PushableObject** Component. What does that do you ask?
+## Drag Forces
 
-The **Pushable Object** Component is to ensure (most of the time) that the object behaves naturally after a collision, so the ***Velocity Drag*** variable controls how much Drag Force the Object recieves __after__ the Player loses contact with the object.
+Drag determines how much the velocity drops per frame if the object is left in motion. There are two drag forces available to change:
 
-For example if the ***X*** of the ***Velocity Drag*** is set to ```0.99``` then every frame after the Player loses contact the object will lose 1% of it's current speed on the ***X*** axis. If you set it to ```0.0``` then the instant the Player loses contact with the object the velocity on the ***X*** axis will become 0.
+1. Angular Drag - This affects the speed of rotation after the Player loses contact
+2. Drag - This affects the speed of movement after the Player loses contact
 
-This is useful because you can prevent sliding on 2 axis while allowing the object to drop naturally without drag affecting the ***Y*** axis.
+**Angular Drag** can be changed directly through the **Rigidbody** Component, increasing it will slow down rotation after Player loses contact.
+
+**Drag** can also be changed directly through the **Rigidbody** Component, however it will affect all the axis of movement. So, even when the Cube drops from a height it will appear to 'float' downward. This won't look great. 
+
+To fix this, the **Pushable Object** Component has a slider of grag for each axis of movement. In the case of the Cube, we only want Drag to affect the **X** and **Y** axis. We can now do this!
+
+Let's modify a couple of settings and see how it looks.
 
 ![grounded_move_2.gif]({{site.baseurl}}/grounded_move_2.gif)
 
-Now that I have some ***Angular Drag*** and ***Velocity Drag**, you'll notice that the Cube is a lot more grounded and doesn't slide. 
+Now I have modified the Cube to contain the following properties:
 
-## Existing Prefabs
+1. ***Angular Drag*** on **Rigidbody** has a value of **10** instead of **4** which means it will rotate slower after the Player loses contact.
 
-If you need demos on how to make the following :
+2. **Pushable Object** Component has been modified to have the following properties:
+
+![INDIVIDUALAXIS.png]({{site.baseurl}}/INDIVIDUALAXIS.png)
+
+Note that even **5** on the **X** and **Y** Axis is sufficient to prevent the slipping.
+
+## Premade Prefabs
+
+If you want a good starting point for your Pushable objects, you can use the following:
 
 1. Cube that can slide across the ground
 2. Wall that can be knocked over
 3. Sphere that can be rolled
 
-You can look in ***Assets/Prefabs/Pushable Prefabs***.
+You can look in ***Assets/Prefabs/Pushable Prefabs*** to find these prefabs.
 
+## Optimisations
+
+The **Pushable Object** script is heavily optimised, it does __not__ have an ``Update()`` function, it only runs when the Player is pushing the object, so a scene can contain many Pushable objects.
 
