@@ -81,6 +81,16 @@ Now I have modified the Cube to contain the following properties:
 
 Note that even a small Drag of **5** on the **X** and **Z** Axis is sufficient to prevent the slipping.
 
+Here are some rules on how to set the Drag properties in the **Pushable Object** Component:
+
+- Set to 0 on an axis if you don't want any Drag on that axis, after the Player loses contact, it will rely entirely upon **Rigidbody Drag**.
+
+- Set to 100 on an axis if you want the Object to stop instantly after the Player loses contact.
+
+- Set to intermediate values if you need Drag to affect the different axis without bringing the Object to stop immediately.
+
+- The values should never exceed 100 or go below 0
+
 ## Premade Prefabs
 
 If you want a good starting point for your Pushable objects, you can use the following:
@@ -90,6 +100,7 @@ If you want a good starting point for your Pushable objects, you can use the fol
 3. Sphere that can be rolled
 
 You can look in ***Assets/Prefabs/Pushable Prefabs*** to find these prefabs.
+
 
 ## Optimisations
 
