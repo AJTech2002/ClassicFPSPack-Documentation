@@ -38,14 +38,7 @@ For example, you want a simple cube that you can push on the ground. Simply crea
 1. Assign the **PushableObject** Component to the object
 
 	- You can modify the ***Velocity Drag*** to individually affect the different axis' Drag __after__ the Player loses contact with the object (can prevent sliding effect).
-    
-    	- Set to 0 on an axis if you don't want any Drag on that axis, after the Player loses contact, it will rely entirely upon **Rigidbody Drag**.
-        
-        - Set to 100 on an axis if you want the Object to stop instantly after the Player loses contact.
-        
-        - Set to intermediate values if you need Drag to affect the different axis without bringing the Object to stop immediately.
-        
-        - The values should never exceed 100 or go below 0
+
         
 2. Ensure there is a Collider on the object
 
