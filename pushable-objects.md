@@ -25,9 +25,9 @@ There are a few things that contribute to how much the Pushable objects are affe
 
 4. The properties of the **Rigidbody** attached to the Pushable object
 
-  - The Mass of the Rigidbody that the Player is trying to push
-  - The Angular Drag of the Rigidbody that the Player is trying to push
-  - The Drag of the Rigidbody that the Player is trying to push
+    - The Mass of the Rigidbody that the Player is trying to push
+    - The Angular Drag of the Rigidbody that the Player is trying to push
+    - The Drag of the Rigidbody that the Player is trying to push
 
 ## Creating a Pushable Object
 
