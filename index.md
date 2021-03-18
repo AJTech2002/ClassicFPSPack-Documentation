@@ -17,3 +17,5 @@ You'll be able to quickly find the core elements of the FPS Base Project here, t
 - [**Player Camera Controller**](camera-controller.md)
 
 - [**Pushable Objects**](pushable-objects.md)
+
+- [**Interacting With Objects**](throwable-objects.md)
