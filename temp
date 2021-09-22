@@ -1,0 +1,224 @@
+using ClassicFPS.Saving_and_Loading;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using ClassicFPS.Audio;
+using ClassicFPS.Controller;
+
+namespace ClassicFPS.Managers
+{
+    [RequireComponent(typeof(SaveManager))]
+    public class GameManager : MonoBehaviour
+    {
+        [Header("Prefab")]
+        //The Prefab of the Player
+        public GameObject playerPrefab;
+
+        [Header("Settings")]
+        public KeyManager keyManager;
+        public WeaponManager weaponManager;
+
+        [Header("Testing Helpers")]
+        public bool isTestingScene = false;
+        public bool saveSceneOnSpawn = true;
+        public bool loadSceneContentsOnLoad = true;
+
+        [Header("Scene Information")]
+        //The name of the starting scene (that is not the Menu)
+        public string startingSceneName;
+
+        public static GameManager instance;
+
+        public static PlayerWeaponController PlayerWeaponController;
+        public static PlayerController PlayerController;
+        public static PlayerStatistics PlayerStatistics;
+        public static PlayerSFX PlayerSFX;
+
+        public static GameContext gameContext = new GameContext();
+
+        //Whether or not the game is loading the next scene [Important]
+        [HideInInspector]
+        public bool awaitingSceneLoad = false;
+
+        private bool requiresLoading = true;
+
+        [HideInInspector]
+        public static Dictionary<string, KeySettings> keySettings = new Dictionary<string, KeySettings>();
+
+        private void Awake()
+        {
+
+            if (this.transform.parent != null) Debug.LogError("Make sure GameManager is a root object!");
+
+            if (startingSceneName == "") Debug.LogError("No Starting Scene Attached");
+            if (playerPrefab == null) Debug.LogError("No Player Prefab Atached");
+
+            if (instance != null && instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+
+            SetupGame();
+
+        }
+
+        public void SetupGame ()
+        {
+            //Ensure instances are current
+            if (this.gameObject)
+            {
+                instance = this;
+                SaveManager.instance = GetComponent<SaveManager>(); //Reassign save manager
+                if (GetComponent<SFXManager>()) SFXManager.instance = GetComponent<SFXManager>();
+
+                //Setup the Keys
+                if (keyManager != null)
+                {
+                    keySettings.Clear();
+                    for (int i = 0; i < keyManager.keys.Count; i++)
+                    {
+                        keySettings.Add(keyManager.keys[i].keyID, keyManager.keys[i]);
+                    }
+                }
+
+                // Don't destroy this GameObject on next load
+                DontDestroyOnLoad(this.gameObject);
+
+                //When the scene is loaded call SceneManager_sceneLoaded
+                SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+
+                //Setup some References to be accessed from anywhere
+                PlayerWeaponController = GameObject.FindObjectOfType<PlayerWeaponController>();
+                PlayerController = GameObject.FindObjectOfType<PlayerController>();
+                PlayerStatistics = GameObject.FindObjectOfType<PlayerStatistics>();
+                PlayerSFX = GameObject.FindObjectOfType<PlayerSFX>();
+
+                if (isTestingScene)
+                {
+                    startingSceneName = SceneManager.GetActiveScene().name;
+                    awaitingSceneLoad = true;
+                }
+            }
+        }
+        
+        public static void RespawnFromLastSave()
+        {
+            gameContext = GameContext.Respawning;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            instance.awaitingSceneLoad = true;
+            instance.requiresLoading = true;
+        }
+
+        private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode sceneMode)
+        {
+            //If the GameManager was expecting a new scene to be loaded, then detect any saves
+            if (awaitingSceneLoad && requiresLoading)
+            {
+                if (!instance.loadSceneContentsOnLoad || !instance.saveSceneOnSpawn) Debug.LogWarning("You are not loading the contents of this scene or saving scene on spawn, this could lead to incorrect beahviour. Check properties on GameManager.");
+
+                SetupGame();
+
+                SpawnAndConfigurePlayerController();
+
+                HandleSavingAndLoadingOfNewScene();
+
+                awaitingSceneLoad = false;
+                gameContext = GameContext.Playing;
+            }
+        }
+
+        private void HandleSavingAndLoadingOfNewScene()
+        {
+            Time.timeScale = 0f;
+
+            if (instance.loadSceneContentsOnLoad)
+                SaveManager.LoadLevelContents();
+            else
+                PlayerController.EnablePlayer();
+
+            Time.timeScale = 1f;
+
+
+            bool hasSaveFilesForCurrentScene = SaveManager.HasSaveFilesForScene(SceneManager.GetActiveScene().name);
+            Debug.Log("Has Save File for Scene : " + SceneManager.GetActiveScene().name + " : " + (hasSaveFilesForCurrentScene).ToString());
+
+            //Check if there are any existing save files for the loaded scene (if not, then save...)
+            if (!(GetComponent<GameState>().savedState.currentScene == SceneManager.GetActiveScene().name) && !hasSaveFilesForCurrentScene && instance.saveSceneOnSpawn)
+            {
+                //If there isn't then create a Save here, so that the Game knows the Player reached this level
+                Debug.Log("Entered a new scene, therefore saved it!");
+                SaveManager.SaveAllAsync();
+            }
+            else
+            {
+                if (!hasSaveFilesForCurrentScene)
+                    Debug.LogWarning("Didn't Save Scene on Spawn, even though there are no save files on this scene! If this is expected behaviour then remove this warning.");
+            }
+        }
+
+        private static void SpawnAndConfigurePlayerController()
+        {
+            GameObject spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
+
+            if (spawnPoint == null) Debug.LogError("No SpawnPoint found in this scene");
+
+            //Create a new Player if it doesn't exist in that scene
+            if (GameObject.FindGameObjectWithTag("Player") == null)
+            {
+                GameObject go = GameObject.Instantiate(instance.playerPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+                go.GetComponentInChildren<PlayerCameraController>().SetRotation(spawnPoint.transform.eulerAngles);
+            }
+
+            PlayerWeaponController = GameObject.FindObjectOfType<PlayerWeaponController>();
+            PlayerController = GameObject.FindObjectOfType<PlayerController>();
+            PlayerStatistics = GameObject.FindObjectOfType<PlayerStatistics>();
+            PlayerSFX = GameObject.FindObjectOfType<PlayerSFX>();
+
+            //Don't let the player move as all save data hasn't been loaded in!
+            if (PlayerStatistics != null)
+                PlayerController.DisablePlayer();
+        }
+
+        public bool HasSaveFile()
+        {
+            return SaveManager.HasSaveFiles();
+        }
+
+        public void DeleteSavedProgress()
+        {
+            SaveManager.ClearAllSaves();
+        }
+
+        public void LoadPlayerCurrentLevel()
+        {
+            //Load the current GameState which is global (it stores the current level)
+            SaveManager.LoadStateFromFile(this.GetComponent<GameState>());
+
+            //Once the level is loaded then load in all the Player/Environment information
+            SaveManager.LoadAll();
+        }
+
+        public static void LoadStartScene()
+        {
+            LoadScene(instance.startingSceneName, true);
+        }
+
+        public static void LoadScene(string sceneName, bool requiresLoading)
+        {
+            gameContext = GameContext.SwitchingLevel;
+            SceneManager.LoadScene(sceneName);
+            instance.awaitingSceneLoad = true;
+            instance.requiresLoading = requiresLoading;
+        }
+
+    }
+
+    [System.Serializable]
+    public enum GameContext
+    {
+        Playing,
+        Respawning,
+        SwitchingLevel
+    }
+}
