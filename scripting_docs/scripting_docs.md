@@ -21,6 +21,8 @@ using ClassicFPS.Managers;
 - [UIManager](uimanager.md)
 - [SFXManager](SFXManager.md)
 
+---
+
 ### Controller
 
 Contains core controller scripts, these dictate movement & interaction of the Player Controller in the game.
@@ -39,6 +41,8 @@ using ClassicFPS.Controller;
 - [PlayerObjectInteractionHandler](PlayerObjectInteractionHandler.md)
 - [PlayerStatistics](PlayerStatistics.md)
 - [DefaultPlayerWalkAnimator](DefaultPlayerWalkAnimator.md)
+
+---
 
 ### Weapons
 
@@ -62,6 +66,8 @@ using ClassicFPS.Weapons;
 - [DefaultClassicFPSWeapon](DefaultClassicFPSWeapon.md)
 - [DefaultClassicFPSWeapon_Shooting](DefaultClassicFPSWeapon_Shooting.md)
 
+---
+
 ### Audio
 
 Classes responsible for handling audio within all the other components of the pack, scripts also responsible for footstep ground detection on terrains.
@@ -77,6 +83,8 @@ using ClassicFPS.Audio;
 - [PlayerSFXReference](PlayerSFXReference.md)
 - [Sound](Sound.md)
 - [TerrainSurface](TerrainSurface.md)
+
+---
 
 ### Saving and Loading
 
@@ -98,6 +106,8 @@ using ClassicFPS.Saving_and_Loading;
 - [SavePoint](SavePoint.md)
 - [TransformState](TransformState.md)
 
+---
+
 ### Interactable Objects
 
 Classes responsible for handling interactable objects for example things that can be pushed, thrown or broken.
@@ -108,6 +118,8 @@ using ClassicFPS.Interactable_Objects;
 
 - [BreakableObject](BreakableObject.md)
 - [PushableObject](PushableObject.md)
+
+---
 
 ### Enemy
 
@@ -124,6 +136,8 @@ using ClassicFPS.Enemy;
 - [DroneEnemy](DroneEnemy.md)
 - [ClassicEnemy](ClassicEnemy.md)
 
+---
+
 ### Door System
 
 Classes that control opening Doors w/ key pickups and also dialogue interactions to get keys from NPCs.
@@ -138,6 +152,8 @@ using ClassicFPS.Door_System;
 - [KeyPickup](Enemy.md)
 - [KeyReference](Enemy.md)
 - [KeyDialogue](Enemy.md)
+
+---
 
 ### Dialogue System
 
@@ -155,6 +171,8 @@ using ClassicFPS.Dialogue_System;
 - [DialogueRunner](DialogueRunner.md)
 - [DialogueUtils](DialogueUtils.md)
 
+---
+
 ### Pickups
 
 General Pickup items that are used to modify the state of the Player.
@@ -171,6 +189,8 @@ using ClassicFPS.Pickups;
 - [WeaponPickup](WeaponPickup.md)
 - [AmmoBox](AmmoBox.md)
 
+---
+
 ### UI
 
 General UI Scripts to interact with different systems in the pack.
@@ -184,6 +204,8 @@ using ClassicFPS.UI;
 - [KeyUI](KeyUI.md)
 - [EndUI](EndUI.md)
 - [SaveUI](SaveUI.md)
+
+---
 
 ### Utils
 

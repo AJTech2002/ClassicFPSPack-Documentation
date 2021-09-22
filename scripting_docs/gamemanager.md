@@ -15,6 +15,8 @@ The GameManager is not destroyed in between scenes, meaning the first GameManage
 
 In order for this to work, the GameManager must be in the root of scene, it must not be under any other GameObject in the scene.
 
+---
+
 ## Public & Static Functions
 
 Static functions can be accessed by :
@@ -42,6 +44,8 @@ GameManager.instance.PublicFunction()
 ### Important Private Functions
 
 1. **SceneManager_sceneLoaded(Scene scene, LoadSceneMode sceneMode)** : This function is automatically called when a new scene is loaded and `requiresLoading = true`; here you can handle all the logic of what to do when a new scene is created.
+
+---
 
 ## Variables
 
@@ -75,7 +79,7 @@ These should generally be 'true', however if you don't want to save the scene ev
 
 You can access the following variables directly from the GameManager:
 
-```C#
+```csharp
 public static PlayerWeaponController PlayerWeaponController;
 public static PlayerController PlayerController;
 public static PlayerStatistics PlayerStatistics;
