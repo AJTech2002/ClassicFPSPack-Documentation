@@ -1,224 +1,384 @@
-using ClassicFPS.Saving_and_Loading;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.IO;
+using ClassicFPS.Saving_and_Loading;
 using UnityEngine.SceneManagement;
-using ClassicFPS.Audio;
-using ClassicFPS.Controller;
 
 namespace ClassicFPS.Managers
 {
-    [RequireComponent(typeof(SaveManager))]
-    public class GameManager : MonoBehaviour
+    //Very simple list of functions to be called to save/load states
+    public class SaveManager : MonoBehaviour
     {
-        [Header("Prefab")]
-        //The Prefab of the Player
-        public GameObject playerPrefab;
+        [Header("Save Format")]
+        [SerializeField] bool binary; //Binary save type (includes basic encryption)
 
-        [Header("Settings")]
-        public KeyManager keyManager;
-        public WeaponManager weaponManager;
+        [Header("Save Options")]
+        [SerializeField] string overrideSavePath = "";
+        [SerializeField] bool usePersistentDataPath = true;
+        [SerializeField] bool testing;
 
-        [Header("Testing Helpers")]
-        public bool isTestingScene = false;
-        public bool saveSceneOnSpawn = true;
-        public bool loadSceneContentsOnLoad = true;
-
-        [Header("Scene Information")]
-        //The name of the starting scene (that is not the Menu)
-        public string startingSceneName;
-
-        public static GameManager instance;
-
-        public static PlayerWeaponController PlayerWeaponController;
-        public static PlayerController PlayerController;
-        public static PlayerStatistics PlayerStatistics;
-        public static PlayerSFX PlayerSFX;
-
-        public static GameContext gameContext = new GameContext();
-
-        //Whether or not the game is loading the next scene [Important]
-        [HideInInspector]
-        public bool awaitingSceneLoad = false;
-
-        private bool requiresLoading = true;
+        public static bool currentlySaving = false;
 
         [HideInInspector]
-        public static Dictionary<string, KeySettings> keySettings = new Dictionary<string, KeySettings>();
+        private static SaveManager _instance;
 
-        private void Awake()
+        //Make sure there is always an instance even when moving between scenes
+        public static SaveManager instance
         {
-
-            if (this.transform.parent != null) Debug.LogError("Make sure GameManager is a root object!");
-
-            if (startingSceneName == "") Debug.LogError("No Starting Scene Attached");
-            if (playerPrefab == null) Debug.LogError("No Player Prefab Atached");
-
-            if (instance != null && instance != this)
-            {
-                Destroy(this.gameObject);
-                return;
+            get {
+                if (_instance == null) _instance = GameObject.FindObjectOfType<SaveManager>();
+                return _instance;
             }
-
-            SetupGame();
-
-        }
-
-        public void SetupGame ()
-        {
-            //Ensure instances are current
-            if (this.gameObject)
-            {
-                instance = this;
-                SaveManager.instance = GetComponent<SaveManager>(); //Reassign save manager
-                if (GetComponent<SFXManager>()) SFXManager.instance = GetComponent<SFXManager>();
-
-                //Setup the Keys
-                if (keyManager != null)
-                {
-                    keySettings.Clear();
-                    for (int i = 0; i < keyManager.keys.Count; i++)
-                    {
-                        keySettings.Add(keyManager.keys[i].keyID, keyManager.keys[i]);
-                    }
-                }
-
-                // Don't destroy this GameObject on next load
-                DontDestroyOnLoad(this.gameObject);
-
-                //When the scene is loaded call SceneManager_sceneLoaded
-                SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-
-                //Setup some References to be accessed from anywhere
-                PlayerWeaponController = GameObject.FindObjectOfType<PlayerWeaponController>();
-                PlayerController = GameObject.FindObjectOfType<PlayerController>();
-                PlayerStatistics = GameObject.FindObjectOfType<PlayerStatistics>();
-                PlayerSFX = GameObject.FindObjectOfType<PlayerSFX>();
-
-                if (isTestingScene)
-                {
-                    startingSceneName = SceneManager.GetActiveScene().name;
-                    awaitingSceneLoad = true;
-                }
+            set {
+                _instance = value;
             }
         }
         
-        public static void RespawnFromLastSave()
-        {
-            gameContext = GameContext.Respawning;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            instance.awaitingSceneLoad = true;
-            instance.requiresLoading = true;
-        }
+        [Header("Testing Save Inputs")]
+        [SerializeField] InputAction saveInputAction; //Testing Save Action
+        [SerializeField] InputAction loadAction; //Testing Load Action
 
-        private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode sceneMode)
+        [Header("DEBUG [ READONLY ]")]
+        [SerializeField] private string selectedSavePath = "";
+
+        //Current Saver (Can be binary or text look at SaveTypes.cs)
+        private ISaver _saveHelper;
+        public ISaver saveHelper
         {
-            //If the GameManager was expecting a new scene to be loaded, then detect any saves
-            if (awaitingSceneLoad && requiresLoading)
+            get
             {
-                if (!instance.loadSceneContentsOnLoad || !instance.saveSceneOnSpawn) Debug.LogWarning("You are not loading the contents of this scene or saving scene on spawn, this could lead to incorrect beahviour. Check properties on GameManager.");
+                if (_saveHelper == null)
+                {
+                    if (binary) _saveHelper = new BinaryEncryptedSaver();
+                    else _saveHelper = new SimpleTextSaver();
+                }
 
-                SetupGame();
-
-                SpawnAndConfigurePlayerController();
-
-                HandleSavingAndLoadingOfNewScene();
-
-                awaitingSceneLoad = false;
-                gameContext = GameContext.Playing;
+                return _saveHelper;
+            }
+            set
+            {
+                _saveHelper = value;
             }
         }
 
-        private void HandleSavingAndLoadingOfNewScene()
+        private void Awake()
         {
-            Time.timeScale = 0f;
+            instance = this;
 
-            if (instance.loadSceneContentsOnLoad)
-                SaveManager.LoadLevelContents();
+            if (usePersistentDataPath) selectedSavePath = Application.persistentDataPath;
+            else selectedSavePath = overrideSavePath;
+
+            saveInputAction.Enable();
+            saveInputAction.performed += SaveInputAction_performed;
+
+            //TODO: Remove this, this is for testing only
+            loadAction.Enable();
+            loadAction.performed += LoadAction_performed;
+            
+            //Determine which saver to use
+            if (binary) saveHelper = new BinaryEncryptedSaver();
+            else saveHelper = new SimpleTextSaver();
+
+        }
+
+        private static string GetSavingDataPath ()
+        {
+            if (instance.usePersistentDataPath) return Application.persistentDataPath;
+            else return instance.overrideSavePath;
+        }
+
+        public static void LoadLevelContents()
+        {
+            instance.StartCoroutine("Delayed_Load");
+        }
+
+        public IEnumerator Delayed_Load()
+        {
+            //Small delay to let all the items in the scene to begin 
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            LoadAllStates();
+        }
+
+        private void LoadAction_performed(InputAction.CallbackContext obj)
+        {
+            if (instance.testing)
+            {
+                print("Has Loaded!");
+                LoadAllStates();
+            }
+        }
+
+        private void SaveInputAction_performed(InputAction.CallbackContext obj)
+        {
+            //Only allow for a save if the Player is at the Save point
+            if (instance.testing)
+            {
+                print("Has Saved!");
+                instance.StartCoroutine("SaveAllStates");
+            }
+        }
+
+        //Saves all states
+        public static void SaveAllAsync()
+        {
+            instance.StartCoroutine("SaveAllStates");
+        }
+        
+        //Write a file seperately (if its part of a group then you'll have to save with all)
+        public static void SaveStateToFile(State state)
+        {
+            if (state == null) return;
+            if (state.ShouldSave())
+            {
+                string json = state.SaveState();
+                instance.WriteFile(SaveManager.GetSavingDataPath() + "/" + ProcessedUID(state) + ".save", json);
+            }
+        }
+        
+        //Get the Processed UID from the current Saver
+        public static string ProcessedUID (State state)
+        {
+            if (state == null) return "";
+            return instance.saveHelper.ProcessUID(state.GetUID());
+        }
+
+        public static void LoadAll()
+        {
+            instance.LoadAllStates();
+        }
+        
+        //Check if there are any save files
+        public static bool HasSaveFiles()
+        {
+            if (GameObject.FindObjectOfType<GameState>() == null)
+            {
+                Debug.LogError("A GameState Component is required in the scene");
+                return false;
+            }
+
+            //Check if a GameState save file exists (which is the global save file)
+            string fileLocation = SaveManager.GetSavingDataPath() + "/" + ProcessedUID(GameObject.FindObjectOfType<GameState>()) + ".save";
+
+            //If it exists then there is saved progress
+            if (File.Exists(fileLocation))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //Check if there are any save files for the current scene [Only works for Text Saver]    
+        public static bool HasSaveFilesForScene(string sceneName)
+        {
+            //Find all files with extension .save in the SaveManager.GetSavingDataPath() path
+            DirectoryInfo d = new DirectoryInfo(SaveManager.GetSavingDataPath());
+            FileInfo[] Files = d.GetFiles("*.save");
+
+            if (Files != null && Files.Length >= 1) 
+            {
+                for (int i = 0; i < Files.Length; i++)
+                {
+                    string nameCheck = Files[i].Name.Replace(".save", "");
+                    if (instance.saveHelper.UnprocessedUID(nameCheck).Contains(sceneName))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        
+        //Delete all saves
+        public static void ClearAllSaves()
+        {
+            //Find all files with extension .save in the SaveManager.GetSavingDataPath() path
+            DirectoryInfo d = new DirectoryInfo(SaveManager.GetSavingDataPath());
+            FileInfo[] Files = d.GetFiles("*.save");
+
+            //For each file, delete it.
+            foreach (FileInfo file in Files)
+            {
+
+                File.Delete(file.FullName);
+            }
+        }
+        
+        //Get the value of a specific state
+        public static void LoadStateFromFile(State state)
+        {
+            if (state == null) return;
+            //Find the location of the file (using UID)
+            string fileLocation = SaveManager.GetSavingDataPath() + "/" + ProcessedUID(state) + ".save";
+
+            //Make sure the Save file still exists
+            if (File.Exists(fileLocation))
+            {
+                //If it does then read the JSON
+                string json = instance.saveHelper.ReadFile(fileLocation);
+                state.LoadState(json);
+            }
+            else {
+                state.EmptyLoadState();
+            }
+        }
+
+        public static bool HasSaveFilesForState(State state)
+        {
+            string fileLocation = SaveManager.GetSavingDataPath() + "/" + ProcessedUID(state) + ".save";
+            if (File.Exists(fileLocation))
+                return true;
             else
-                PlayerController.EnablePlayer();
+                return false;
+        }
 
-            Time.timeScale = 1f;
+        //Clears all the saves from the current level
+        public static void ClearLevelSaves(string sceneName)
+        {
+            DirectoryInfo d = new DirectoryInfo(SaveManager.GetSavingDataPath());
+            FileInfo[] Files = d.GetFiles("*.save");
 
-
-            bool hasSaveFilesForCurrentScene = SaveManager.HasSaveFilesForScene(SceneManager.GetActiveScene().name);
-            Debug.Log("Has Save File for Scene : " + SceneManager.GetActiveScene().name + " : " + (hasSaveFilesForCurrentScene).ToString());
-
-            //Check if there are any existing save files for the loaded scene (if not, then save...)
-            if (!(GetComponent<GameState>().savedState.currentScene == SceneManager.GetActiveScene().name) && !hasSaveFilesForCurrentScene && instance.saveSceneOnSpawn)
+            if (Files != null && Files.Length >= 1)
             {
-                //If there isn't then create a Save here, so that the Game knows the Player reached this level
-                Debug.Log("Entered a new scene, therefore saved it!");
-                SaveManager.SaveAllAsync();
+                for (int i = 0; i < Files.Length; i++)
+                {
+                    string nameCheck = Files[i].Name.Replace(".save", "");
+                    if (instance.saveHelper.UnprocessedUID(nameCheck).Contains(sceneName))
+                    {
+                        File.Delete(Files[i].FullName);
+                    }
+                }
             }
-            else
+        }
+
+        
+        // This method saves all states and ensures it is done before moving on, important if switching scenes
+        public static void SaveAllSynchronous ()
+        {
+            List<State> states = FindAllStates();
+            for (int i = 0; i < states.Count; i++)
             {
-                if (!hasSaveFilesForCurrentScene)
-                    Debug.LogWarning("Didn't Save Scene on Spawn, even though there are no save files on this scene! If this is expected behaviour then remove this warning.");
+                State foundState = states[i];
+                if (foundState == null) continue;
+                if (foundState.ShouldSave())
+                {
+                    string json = foundState.SaveState();
+                    instance.WriteFile(SaveManager.GetSavingDataPath() + "/" + ProcessedUID(foundState) + ".save", json);
+                }
             }
         }
 
-        private static void SpawnAndConfigurePlayerController()
+        //Method that Saves all the States in the Scene Asynchronously (DONT USE THIS IF SWITCHING SCENES)
+        public IEnumerator SaveAllStates()
         {
-            GameObject spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
-
-            if (spawnPoint == null) Debug.LogError("No SpawnPoint found in this scene");
-
-            //Create a new Player if it doesn't exist in that scene
-            if (GameObject.FindGameObjectWithTag("Player") == null)
+            currentlySaving = true;
+            List<State> states = FindAllStates();
+            for (int i = 0; i < states.Count; i++)
             {
-                GameObject go = GameObject.Instantiate(instance.playerPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-                go.GetComponentInChildren<PlayerCameraController>().SetRotation(spawnPoint.transform.eulerAngles);
+                State foundState = states[i];
+                if (foundState == null) continue;
+                //If the State says it should save (true by default)
+                if (foundState.ShouldSave())
+                {
+                    yield return new WaitForEndOfFrame();
+                    //Get the JSON for that Object from the State
+                    string json = foundState.SaveState();
+
+                    WriteFile(SaveManager.GetSavingDataPath() + "/" + ProcessedUID(foundState) + ".save", json);
+
+                }
+            }
+            currentlySaving = false;
+        }
+
+        //Ensure the game saves
+        public static void EnsureSafeSaving ()
+        {
+            if (currentlySaving)
+            {
+                instance.StopAllCoroutines();
+
+                currentlySaving = false;
+                SaveAllSynchronous();
+            }
+        }
+
+        public static List<State> FindAllStates()
+        {
+            List<State> results = new List<State>();
+            List<int> UIDAdded = new List<int>();
+
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                var s = SceneManager.GetSceneAt(i);
+                if (s.isLoaded)
+                {
+                    var allGameObjects = s.GetRootGameObjects();
+                    for (int j = 0; j < allGameObjects.Length; j++)
+                    {
+                        var go = allGameObjects[j];
+                        foreach (State s2 in go.GetComponentsInChildren<State>(true))
+                        {
+                            results.Add(s2);
+                            UIDAdded.Add(s2.GetInstanceID());
+                        }
+                    }
+                }
             }
 
-            PlayerWeaponController = GameObject.FindObjectOfType<PlayerWeaponController>();
-            PlayerController = GameObject.FindObjectOfType<PlayerController>();
-            PlayerStatistics = GameObject.FindObjectOfType<PlayerStatistics>();
-            PlayerSFX = GameObject.FindObjectOfType<PlayerSFX>();
+            foreach (State s in GameObject.FindObjectsOfType<State>())
+            {
+                if (UIDAdded.Contains(s.GetInstanceID())) continue;
+                results.Add(s);
+            }
 
-            //Don't let the player move as all save data hasn't been loaded in!
-            if (PlayerStatistics != null)
-                PlayerController.DisablePlayer();
+            
+            return results;
         }
 
-        public bool HasSaveFile()
+        public void WriteFile(string path, string json)
         {
-            return SaveManager.HasSaveFiles();
+            //Write using the current saver
+            saveHelper.WriteFile(path, json);
         }
 
-        public void DeleteSavedProgress()
+        //Can be called whenever the Game needs to be reloaded
+        public void LoadAllStates()
         {
-            SaveManager.ClearAllSaves();
+            foreach (State foundState in FindAllStates())
+            {
+                if (foundState.ShouldLoad())
+                {
+                    //Find the location of the file (using UID)
+                    string fileLocation = SaveManager.GetSavingDataPath() + "/" + ProcessedUID(foundState) + ".save";
+
+                    //Make sure the Save file still exists
+                    if (File.Exists(fileLocation))
+                    {
+                        //If it does then read the JSON
+                        string json = instance.saveHelper.ReadFile(fileLocation);
+                        foundState.LoadState(json);
+                    }
+                    else
+                        foundState.EmptyLoadState();
+                }
+            }
         }
 
-        public void LoadPlayerCurrentLevel()
+        //Function to be called when a checkpoint is reached
+        public static void CheckpointReached()
         {
-            //Load the current GameState which is global (it stores the current level)
-            SaveManager.LoadStateFromFile(this.GetComponent<GameState>());
-
-            //Once the level is loaded then load in all the Player/Environment information
-            SaveManager.LoadAll();
-        }
-
-        public static void LoadStartScene()
-        {
-            LoadScene(instance.startingSceneName, true);
-        }
-
-        public static void LoadScene(string sceneName, bool requiresLoading)
-        {
-            gameContext = GameContext.SwitchingLevel;
-            SceneManager.LoadScene(sceneName);
-            instance.awaitingSceneLoad = true;
-            instance.requiresLoading = requiresLoading;
+            //Auto start saving states
+            print("Checkpoint Reached");
+            instance.StartCoroutine("SaveAllStates");
         }
 
     }
 
-    [System.Serializable]
-    public enum GameContext
-    {
-        Playing,
-        Respawning,
-        SwitchingLevel
-    }
+    
 }
