@@ -55,7 +55,7 @@ Here are some other General variables that need to be assigned, the demo will ha
 
 1. **playerPrefab**: Reference to the FPS Controller, it's best to use the one provided with the pack.
 2. **keyManager**: The Key Manager scriptable object within the Project.
-3. **weaponmanager**: The Weapon Manager scriptable object within the Project.
+3. **weaponManager**: The Weapon Manager scriptable object within the Project.
 4. **startingSceneName**: The name of the starting scene, this is used when the GameManager can't find any other saves, take a look at the Menu scene to see this being used.
 
 ### Testing
