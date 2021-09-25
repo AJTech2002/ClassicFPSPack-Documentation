@@ -14,12 +14,12 @@ using ClassicFPS.Managers;
 
 **Scripts in Namespace**:
 
-- [GameManager](gamemanager.md)
-- [SaveManager](savemanager.md)
-- [KeyManager](keymanager.md)
-- [WeaponManager](weaponmanager.md)
-- [UIManager](uimanager.md)
-- [SFXManager](SFXManager.md)
+- [GameManager](managers/gamemanager.md)
+- [SaveManager](managers/savemanager.md)
+- [KeyManager](managers/keymanager.md)
+- [WeaponManager](managers/weaponmanager.md)
+- [UIManager](managers/uimanager.md)
+- [SFXManager](managers/sfxmanager.md)
 
 ---
 
@@ -33,14 +33,14 @@ using ClassicFPS.Controller;
 
 **Scripts in Namespace**:
 
-- [PlayerController](PlayerController.md)
-- [PlayerCameraController](PlayerCameraController.md)
-- [PlayerWeaponController](PlayerWeaponController.md)
-- [PlayerInputManager](PlayerInputManager.md)
-- [PlayerPhysics](PlayerPhysics.md)
-- [PlayerObjectInteractionHandler](PlayerObjectInteractionHandler.md)
-- [PlayerStatistics](PlayerStatistics.md)
-- [DefaultPlayerWalkAnimator](DefaultPlayerWalkAnimator.md)
+- [PlayerController](controller/PlayerController.md)
+- [PlayerCameraController](controller/PlayerCameraController.md)
+- [PlayerWeaponController](controller/PlayerWeaponController.md)
+- [PlayerInputManager](controller/PlayerInputManager.md)
+- [PlayerPhysics](controller/PlayerPhysics.md)
+- [PlayerObjectInteractionHandler](controller/PlayerObjectInteractionHandler.md)
+- [PlayerStatistics](controller/PlayerStatistics.md)
+- [DefaultPlayerWalkAnimator](controller/DefaultPlayerWalkAnimator.md)
 
 ---
 
@@ -217,4 +217,4 @@ using ClassicFPS.Utils;
 
 **Scripts in Namespace**:
 
-- [PickupUtils](PickupUtils.md)
+- [PickupUtils](utils/PickupUtils.md)
