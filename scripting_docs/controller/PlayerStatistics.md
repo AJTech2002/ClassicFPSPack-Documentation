@@ -29,12 +29,16 @@ GameManager.PlayerStatistics.PublicFunction();
 ```
 
 1. **CollectKey(string keyID)**: Allows Player to pickup a key.
+
 2. **HasKey(string keyID)**: Checks if Player has a given key.
+
 3. **UpdateUI()**: Updates the UI relating to the health & coin variables stored in the player.
-4. **TakeDamage(float damage)**: Allows player to take a certain amount of damage and handles the death condition & SFX as well. 
+
+4. **TakeDamage(float damage)**: Allows player to take a certain amount of damage and handles the death condition & SFX as well.
+
 5. **Death()**: Kills the player. If there is an existing save it goes back to that save as 'respawn' behaviour; if there isn't nothing happens; you will have to implement this logic.
 
-    It is highly recommended that the death function is changed to suit the needs of your game.
+   It is highly recommended that the death function is changed to suit the needs of your game.
 
 ## Tracked Information
 
@@ -63,4 +67,3 @@ When the state is loaded the following is executed:
 3. Update the UI
 4. Play spawn noise
 5. Tell the Player Controller that the Player Statistics is loaded
-

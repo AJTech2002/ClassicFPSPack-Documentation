@@ -4,6 +4,16 @@ The Classic FPS Pack developed by [Ajay Venkat](https://www.youtube.com/c/AJTech
 
 It is currently being used in an upcoming indie game [Father](https://store.steampowered.com/app/1575990/Father/) by Thomas Brush.
 
+**Recommended Approach**:
+
+1. Video Documentation for General Learning & Conceptual understanding of pack
+2. Scripting API for understanding scripts & changing functionality
+3. Scripting Extension for creating new Scripts that interact with the pack
+
+### Setup
+
+Before following any documentation ensure that the setup is completed. To setup, use the `Classic FPS > Setup` editor and follow all the steps to have the necessary layers, tags, physics settings etc.
+
 ### Video Documentation
 
 This pack has been documented in 2 forms, both in video form as well as written form. The video documentation contains information about each of the systems within the pack and will give you a good starting point to use them.

@@ -2,6 +2,8 @@
 
 The Player Object Interaction Handler script is used mainly to handle the pickup/throwing of objects. This is a way to pickup items without the Gravity Gun and through the player's 'hands'.
 
+The Player can pickup items that have the `PushableObject` script with the **canPickup** variable set to true.
+
 The Script ensures the following:
 
 1. When an item is picked up the weapon that the player is holding is unequipped

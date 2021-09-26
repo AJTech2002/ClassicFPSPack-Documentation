@@ -54,17 +54,16 @@ using ClassicFPS.Weapons;
 
 **Abstract/General**
 
-- [BaseWeapon](BaseWeapon.md)
-- [Weapon](Weapon.md)
-- [WeaponAttribute](WeaponAttribute.md)
-- [WeaponReference](WeaponReference.md)
+- [Weapon](weapons/Weapon.md)
+- [BaseWeapon](weapons/BaseWeapon.md)
+- [WeaponAttribute](weapons/WeaponAttribute.md)
+- [WeaponReference](weapons/WeaponReference.md)
 
 **Demo Scripts**
 
-- [Projectile](Projectile.md)
-- [DemoGravityGun](DemoGravityGun.md)
-- [DefaultClassicFPSWeapon](DefaultClassicFPSWeapon.md)
-- [DefaultClassicFPSWeapon_Shooting](DefaultClassicFPSWeapon_Shooting.md)
+- [Projectile](weapons/Projectile.md)
+- [DemoGravityGun](weapons/DemoGravityGun.md)
+- [DefaultClassicFPSWeapon](weapons/DefaultClassicFPSWeapon.md)
 
 ---
 
