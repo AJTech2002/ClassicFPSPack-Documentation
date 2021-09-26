@@ -15,6 +15,26 @@ The GameManager is not destroyed in between scenes, meaning the first GameManage
 
 In order for this to work, the GameManager must be in the root of scene, it must not be under any other GameObject in the scene.
 
+### Game Flow
+
+The Game would start at the Main Menu scene, the GameManager would exist on this scene. The configuration here would follow through the entire game.
+
+The Main Menu should have a way to load from the last save.
+
+The `GameState` stores the last level that was loaded. The Player enters that scene and the `SceneManager_sceneLoaded(Scene scene, LoadSceneMode sceneMode)` function in GameManager is executed.
+
+This loads in all the level data.
+
+If the `GameState` doesnt have a previously saved Level then the GameManger will spawn the Player in the first level.
+
+At the start of each level a new save will be created to allow the Player to 'load' back into that game.
+
+On Player Death the health will be reset and the Player will be pushed back to the last save; this behaviour can be modified in the `PlayerStatistics` script.
+
+When the Player reaches the End Scene, all saves can be cleared to allow them to restart.
+
+This flow is implemented in the `Demo Scenes` folder, from the `Menu` to the `End Screen`.
+
 ---
 
 ## Public & Static Functions
@@ -75,7 +95,7 @@ public bool loadSceneContentsOnLoad = true;
 
 These should generally be 'true', however if you don't want to save the scene everytime the player spawns or you want to start afresh each time you can modify these variables; ensure they are both set to true when you're not testing.
 
-### References
+### Static References
 
 You can access the following variables directly from the GameManager:
 

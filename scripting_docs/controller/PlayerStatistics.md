@@ -14,9 +14,11 @@ These variables can be changed to modify the initial state of the Player:
 
 2. **playerOptions**: This is the default state of the Player, you can change these variables however if there is a save file then this will be changed to those values.
 
+### Health Resetting
+
 The Health is reset back to the Max Health in the following scenarios:
 
-1. Player Dies & Respawns (Handled in PlayerStatistics Death function)
+1. Player Dies & Respawns (Handled in PlayerStatistics Death function) - all information goes back to last save.
 
 2. The Player switches Level through the LevelSwitcher component (there is an option to disable resetting health on moving to another level)
 
