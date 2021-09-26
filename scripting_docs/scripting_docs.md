@@ -95,15 +95,15 @@ using ClassicFPS.Saving_and_Loading;
 
 **Abstract/General**
 
-- [ISaver](ISaver.md)
-- [State](State.md)
-- [SaveUtils](SaveUtils.md)
+- [ISaver](saving/ISaver.md)
+- [State](saving/State.md)
+- [SaveUtils](saving/SaveUtils.md)
 
 **Demo Scripts**
 
-- [GameState](GameState.md)
-- [SavePoint](SavePoint.md)
-- [TransformState](TransformState.md)
+- [GameState](saving/GameState.md)
+- [SavePoint](saving/SavePoint.md)
+- [TransformState](saving/TransformState.md)
 
 ---
 
