@@ -62,6 +62,25 @@ These variables are public however they are intended to be used to understand th
 
 There are a lot more exposed variables that you can use to determine the state of the Player Controller, take a look through the code.
 
+### Saving & Loading
+
+After a state has been loaded on a Player Controller it calls the following function:
+
+`if (GetComponent<PlayerController>()) GetComponent<PlayerController>().AccumulateSaveState();`
+
+The `AccumulateSaveState()` on the `PlayerController` will tell the Player Controller that the loading process has been completed; when both the Transform State and Player Statistics state complete loading the Player Controller will fade out the loading screen.
+
+This will ensure there is no jittering when the Player Controller is teleporting when loading in.
+
+The two states that are on the Player Controller are:
+
+1. **Transform State**: Tracks player position & camera rotation
+2. **Player Statistics**: Keys, Health, Weapons etc.
+
+Both of these have to complete loading before the loading screen is released (or no saves to load).
+
+Take a look at the UIManager to change loading screen behaviour.
+
 ---
 
 The script within the Player Controller is very complex and it split into the different logical components, if you need any advice on how to modify the script please contact me:

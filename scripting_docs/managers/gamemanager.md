@@ -54,12 +54,14 @@ GameManager.instance.PublicFunction()
 ### Static
 
 1. **LoadStartScene()** : Loads the starting scene defined in the GameManager properties
+
 2. **LoadScene (string sceneName, bool requiresLoading)** : Loads the scene with a name (given it is in Build Settings) and if requiresLoading is true then it handles the Player Spawning, Saving etc. in most cases it should be true unless it is a UI scene such as 'Game Over'.
+
 3. **RespawnFromLastSave()** : Respawn from the last save the player made.
 
 ### Public
 
-1. **LoadPlayerCurrentLevel()** : Loads the last scene the player was in before they left the game.
+1. **LoadPlayerCurrentLevel()** : Loads the last scene the player was in before they left the game, this is tracked in the GameState.cs file.
 
 ### Important Private Functions
 
