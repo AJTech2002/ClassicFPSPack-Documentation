@@ -77,11 +77,11 @@ using ClassicFPS.Audio;
 
 **Scripts in Namespace**:
 
-- [GroundSound](GroundSound.md)
-- [PlayerSFX](PlayerSFX.md)
-- [PlayerSFXReference](PlayerSFXReference.md)
-- [Sound](Sound.md)
-- [TerrainSurface](TerrainSurface.md)
+- [Sound](audio/Sound.md)
+- [GroundSound](audio/GroundSound.md)
+- [PlayerSFX](audio/PlayerSFX.md)
+- [PlayerSFXReference](audio/PlayerSFXReference.md)
+- [TerrainSurface](audio/TerrainSurface.md)
 
 ---
 
