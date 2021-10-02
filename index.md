@@ -7,8 +7,8 @@ It is currently being used in an upcoming indie game [Father](https://store.stea
 **Recommended Approach**:
 
 1. Video Documentation for General Learning & Conceptual understanding of pack
-2. Scripting API for understanding scripts & changing functionality
-3. Scripting Extension for creating new Scripts that interact with the pack
+2. Checking out Demos and Prefabs to understand things fit together
+3. Scripting API for understanding scripts & changing functionality
 
 ## Setup
 
@@ -48,3 +48,7 @@ This section covers the following:
 4. General usage guidelines
 
 [**Lets Get Started!**](scripting_docs/scripting_docs.md)
+
+## Prefabs & Demos
+
+There are demo prefabs and scenes show casing all of the features and scripts talked about above, please check them out and use them as a starting point for creating your own prefabs.

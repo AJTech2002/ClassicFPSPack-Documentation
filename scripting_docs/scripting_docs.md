@@ -130,10 +130,10 @@ using ClassicFPS.Enemy;
 
 **Scripts in Namespace**:
 
-- [DamageableEntity](DamageableEntity.md)
-- [Enemy](Enemy.md)
-- [DroneEnemy](DroneEnemy.md)
-- [ClassicEnemy](ClassicEnemy.md)
+- [DamageableEntity](Enemy/DamageableEntity.md)
+- [Enemy](Enemy/Enemy.md)
+- [ClassicEnemy](Enemy/ClassicEnemy.md)
+- [DroneEnemy](Enemy/DroneEnemy.md)
 
 ---
 
@@ -147,10 +147,10 @@ using ClassicFPS.Door_System;
 
 **Scripts in Namespace**:
 
-- [Door](DamageableEntity.md)
-- [KeyPickup](Enemy.md)
-- [KeyReference](Enemy.md)
-- [KeyDialogue](Enemy.md)
+- [Door](Doors/Door.md)
+- [KeyPickup](Doors/KeyPickup.md)
+- [KeyReference](Doors/KeyReference.md)
+- [KeyDialogue](Doors/KeyDialogue.md)
 
 ---
 
@@ -164,11 +164,11 @@ using ClassicFPS.Dialogue_System;
 
 **Scripts in Namespace**:
 
-- [Dialogue](Dialogue.md)
-- [DialogueInteraction](DialogueInteraction.md)
-- [DialogueProcessor](DialogueProcessor.md)
-- [DialogueRunner](DialogueRunner.md)
-- [DialogueUtils](DialogueUtils.md)
+- [Dialogue](Dialogue/Dialogue.md)
+- [DialogueInteraction](Dialogue/DialogueInteraction.md)
+- [DialogueProcessor](Dialogue/DialogueProcessor.md)
+- [DialogueRunner](Dialogue/DialogueRunner.md)
+- [DialogueUtils](Dialogue/DialogueUtils.md)
 
 ---
 
@@ -182,11 +182,11 @@ using ClassicFPS.Pickups;
 
 **Scripts in Namespace**:
 
-- [Pickup](Pickup.md)
-- [CoinPickup](CoinPickup.md)
-- [HealthPickup](HealthPickup.md)
-- [WeaponPickup](WeaponPickup.md)
-- [AmmoBox](AmmoBox.md)
+- [Pickup](Pickups/Pickup.md)
+- [CoinPickup](Pickups/CoinPickup.md)
+- [HealthPickup](Pickups/HealthPickup.md)
+- [WeaponPickup](Pickups/WeaponPickup.md)
+- [AmmoBox](Pickups/AmmoBox.md)
 
 ---
 
@@ -200,9 +200,9 @@ using ClassicFPS.UI;
 
 **Scripts in Namespace**:
 
-- [KeyUI](KeyUI.md)
-- [EndUI](EndUI.md)
-- [SaveUI](SaveUI.md)
+- [KeyUI](UI/KeyUI.md)
+- [EndUI](UI/EndUI.md)
+- [SaveUI](UI/SaveUI.md)
 
 ---
 

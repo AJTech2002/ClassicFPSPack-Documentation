@@ -80,4 +80,4 @@ Lets bump up the X & Z drag on the Pushable Object script, this will lead to som
 
 ### Optimisations
 
-The **Pushable Object** script is heavily optimised, it does **not** have an `Update()` function, it only runs when the Player is pushing the object, so a scene can contain many Pushable objects.
+The **Pushable Object** script is heavily optimised, it does not have an `Update()` function, it only runs when the Player is pushing the object, so a scene can contain many Pushable objects.
