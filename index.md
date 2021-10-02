@@ -48,12 +48,3 @@ This section covers the following:
 4. General usage guidelines
 
 [**Lets Get Started!**](scripting_docs/scripting_docs.md)
-
-## Scripting Extension Documentation
-
-This section covers the following:
-
-1. How to extend some base classes
-2. How to achieve more functionality with the existing scripts
-
-[**Lets Get Started!**](extension_docs.md)

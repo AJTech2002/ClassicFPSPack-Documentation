@@ -115,8 +115,8 @@ Classes responsible for handling interactable objects for example things that ca
 using ClassicFPS.Interactable_Objects;
 ```
 
-- [BreakableObject](BreakableObject.md)
-- [PushableObject](PushableObject.md)
+- [BreakableObject](Interactable/BreakableObject.md)
+- [PushableObject](Interactable/PushableObject.md)
 
 ---
 
